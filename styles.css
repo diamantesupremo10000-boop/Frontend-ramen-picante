@@ -1,0 +1,271 @@
+/* styles.css
+   Ramen picante — neon 3D look
+   Clean structure, variables, respects prefers-reduced-motion
+*/
+
+/* ========== Theme variables ========== */
+:root{
+  --bg-900: #07060a;
+  --bg-800: #0c0b10;
+  --neon-1: #ff3b6b; /* spicy pink */
+  --neon-2: #ffd166; /* warm yellow */
+  --neon-3: #61dafb; /* cyan accent */
+  --bowl: linear-gradient(180deg,#2a1326 0%, #1b0410 100%);
+  --glass: rgba(255,255,255,0.04);
+  --glass-2: rgba(255,255,255,0.02);
+  --shadow: 0 8px 30px rgba(0,0,0,0.6);
+  --transition: 400ms cubic-bezier(.2,.9,.3,1);
+  --size: clamp(320px, 45vmin, 560px);
+}
+
+/* ========== Page layout ========== */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter, "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
+  background:
+    radial-gradient(1200px 600px at 10% 10%, rgba(97,218,251,0.03), transparent 10%),
+    radial-gradient(900px 450px at 90% 90%, rgba(255,59,107,0.03), transparent 12%),
+    var(--bg-900);
+  color:#f3f3f3;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:32px;
+  overflow:hidden;
+}
+
+/* Main container */
+.stage{
+  width:100%;
+  max-width:1100px;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  align-items:center;
+  text-align:center;
+}
+
+/* Header */
+.site-header .title{
+  font-size: clamp(20px, 3.6vw, 36px);
+  margin:0;
+  letter-spacing:0.06em;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:center;
+}
+.site-header .neon{
+  filter:drop-shadow(0 6px 18px rgba(255,59,107,0.35));
+  transform:translateY(-2px);
+}
+.tagline{
+  margin:6px 0 0;
+  color:rgba(255,255,255,0.7);
+  font-size:13px;
+}
+
+/* Scene */
+.scene{
+  position:relative;
+  width:var(--size);
+  height:calc(var(--size) * 0.78);
+  display:grid;
+  place-items:center;
+  perspective:1000px; /* 3D depth for bowl */
+}
+
+/* Particles background */
+.particles{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  z-index:0;
+  pointer-events:none;
+}
+
+/* bowl & ramen wrapper */
+.ramen-wrap{
+  --scale:1;
+  position:relative;
+  width:72%;
+  max-width:640px;
+  height:62%;
+  z-index:2;
+  transform-style:preserve-3d;
+  transition:transform var(--transition);
+  transform: translateZ(40px) rotateX(12deg) rotateY(-6deg) scale(var(--scale));
+  will-change:transform;
+  outline: none;
+}
+
+/* bowl base */
+.bowl{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%) translateZ(60px);
+  bottom:0;
+  width:100%;
+  height:72%;
+  border-radius:50% / 30%;
+  background: var(--bowl);
+  box-shadow: var(--shadow);
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  padding-bottom:6%;
+  overflow:visible;
+  border:1px solid rgba(255,255,255,0.03);
+}
+.bowl-inner{
+  width:94%;
+  height:86%;
+  border-radius:inherit;
+  background: radial-gradient(circle at 40% 20%, rgba(255,255,255,0.02), transparent 18%), var(--glass);
+  transform: translateZ(20px);
+  box-shadow: inset 0 -8px 30px rgba(0,0,0,0.6);
+}
+
+/* soup area sits visually above the bowl */
+.soup{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%) translateZ(110px);
+  top:18%;
+  width:84%;
+  height:56%;
+  border-radius:50%/50%;
+  background: radial-gradient(closest-side, rgba(255,106,106,0.12), rgba(255,59,107,0.06) 60%, rgba(0,0,0,0.06) 100%);
+  display:block;
+  overflow:visible;
+  box-shadow: 0 8px 40px rgba(97,218,251,0.03);
+}
+
+/* neon rim glow */
+.rim-glow{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%) translateZ(130px);
+  top:8%;
+  width:88%;
+  height:72%;
+  border-radius:50%/50%;
+  pointer-events:none;
+  box-shadow:
+    0 0 40px rgba(255,59,107,0.08),
+    0 0 80px rgba(97,218,251,0.04);
+  mix-blend-mode:screen;
+  filter:blur(14px);
+}
+
+/* noodles (styled ribbons) */
+.noodles{position:absolute; inset:12% 8% auto 8%; height:65%; pointer-events:none}
+.noodle{
+  position:absolute;
+  left:50%;
+  width:120%;
+  height:42%;
+  border-radius:40% / 50%;
+  transform-origin:center;
+  background: linear-gradient(90deg, #ffd9a6 0%, #ffb873 60%);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.35), 0 0 20px rgba(255,149,103,0.06) inset;
+  opacity:0.98;
+  will-change:transform, top;
+}
+
+/* individual noodle placement and subtle animation */
+.noodle.n1{top:6%; transform:translateX(-50%) rotate(-12deg) scaleX(1.02)}
+.noodle.n2{top:20%; transform:translateX(-50%) rotate(8deg) scaleX(1.05)}
+.noodle.n3{top:34%; transform:translateX(-50%) rotate(-6deg) scaleX(1.03)}
+.noodle.n4{top:48%; transform:translateX(-50%) rotate(14deg) scaleX(1.06)}
+.noodle.n5{top:62%; transform:translateX(-50%) rotate(-18deg) scaleX(1.01)}
+
+/* toppings */
+.toppings{position:absolute; inset:auto 0 8% 0; display:block; pointer-events:none}
+.egg{
+  position:absolute; left:28%; top:18%; width:82px; height:66px;
+  border-radius:50%/46%;
+  background: radial-gradient(circle at 33% 30%, #fff9e6 0%, #fff0c8 40%, #ffefb8 60%, #eac57a 100%);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4), 0 0 18px rgba(255,209,102,0.06) inset;
+  transform:translateZ(6px) rotate(-6deg);
+}
+.chili{
+  position:absolute;
+  width:14px; height:14px; border-radius:50%;
+  background: linear-gradient(180deg,var(--neon-1), #ff6b3a);
+  box-shadow: 0 0 10px rgba(255,59,107,0.6);
+}
+.chili.c1{left:55%; top:30%; transform:translateZ(8px)}
+.chili.c2{left:66%; top:40%; transform:translateZ(14px)}
+.chili.c3{left:48%; top:54%; transform:translateZ(10px)}
+.scallion{position:absolute; left:62%; top:22%; width:60px; height:10px; border-radius:20px; background:linear-gradient(90deg,#a8ff9e,#6ad17a); transform:rotate(-18deg) translateZ(10px)}
+
+/* steam */
+.steam{position:absolute; left:50%; transform:translateX(-50%); top:-6%; width:40%; height:50%; pointer-events:none}
+.steam span{
+  position:absolute; left:50%; width:18px; height:60px; border-radius:20px;
+  transform-origin:center bottom;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  filter: blur(6px);
+  opacity:0.9;
+  animation:steamRise 5s infinite linear;
+}
+.steam span:nth-child(1){left:34%; height:70px; animation-delay:0s}
+.steam span:nth-child(2){left:50%; height:90px; animation-delay:0.8s}
+.steam span:nth-child(3){left:66%; height:60px; animation-delay:1.6s}
+
+/* steam keyframes */
+@keyframes steamRise{
+  0%{transform:translateY(0) scaleX(.9) translateX(-50%) rotate(-6deg); opacity:0.18}
+  25%{opacity:0.4}
+  60%{transform:translateY(-28%) scaleX(1.05) translateX(-40%) rotate(6deg)}
+  100%{transform:translateY(-120%) scaleX(1.4) translateX(-30%) rotate(12deg); opacity:0}
+}
+
+/* subtle noodle wobble - neon accent */
+@keyframes noodleWiggle{
+  0%{transform: translateX(-50%) rotate(var(--r, 0deg)) scaleX(var(--sx,1))}
+  50%{transform: translateX(-50%) rotate(calc(var(--r, 0deg) + 4deg)) scaleX(calc(var(--sx,1) + 0.02))}
+  100%{transform: translateX(-50%) rotate(var(--r, 0deg)) scaleX(var(--sx,1))}
+}
+
+/* apply to noodles with different durations */
+.noodle{animation: noodleWiggle 5s ease-in-out infinite; animation-delay: calc(var(--i,0) * -0.4s)}
+.noodle.n1{--r:-12deg; --sx:1.02; animation-duration:4.8s}
+.noodle.n2{--r:8deg; --sx:1.05; animation-duration:5.4s}
+.noodle.n3{--r:-6deg; --sx:1.03; animation-duration:5.1s}
+.noodle.n4{--r:14deg; --sx:1.06; animation-duration:5.6s}
+.noodle.n5{--r:-18deg; --sx:1.01; animation-duration:6s}
+
+/* button */
+.btn{
+  border:0;
+  background:linear-gradient(90deg,var(--neon-1),var(--neon-2));
+  color:#111;
+  padding:8px 14px;
+  border-radius:12px;
+  box-shadow: 0 8px 22px rgba(255,59,107,0.12);
+  cursor:pointer;
+  font-weight:600;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.btn:active{transform:translateY(2px)}
+.controls{position:absolute; right:16px; bottom:16px; z-index:6}
+
+/* footer */
+.site-footer{opacity:0.75; font-size:12px}
+
+/* Accessibility: reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .noodle, .steam span, .particles * { animation: none !important; transition: none !important; }
+}
+
+/* small screens adjustments */
+@media (max-width:520px){
+  .scene{height:78vmin}
+  .controls{right:8px; bottom:8px}
+}

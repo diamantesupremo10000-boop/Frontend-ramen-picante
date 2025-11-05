@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ramen Picante — Neon 3D</title>
+  <meta name="description" content="Sitio estático estilo ramen picante con animaciones 3D neón. HTML, CSS y JS puros." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="stage" role="main">
+    <header class="site-header">
+      <h1 class="title">Ramen Picante <span class="neon">🌶️</span></h1>
+      <p class="tagline">Neon 3D — fondo en movimiento · HTML • CSS • JS</p>
+    </header>
+
+    <section class="scene" aria-label="Tazón de ramen animado">
+      <!-- Canvas-like particle layer (DOM-based for simplicity) -->
+      <div id="particles" class="particles" aria-hidden="true"></div>
+
+      <!-- 3D ramen bowl composed with divs + CSS transforms -->
+      <div class="ramen-wrap" id="ramen" tabindex="0">
+        <div class="bowl">
+          <div class="bowl-inner"></div>
+        </div>
+
+        <div class="soup">
+          <div class="noodles" aria-hidden="true">
+            <!-- multiple noodle strokes -->
+            <span class="noodle n1"></span>
+            <span class="noodle n2"></span>
+            <span class="noodle n3"></span>
+            <span class="noodle n4"></span>
+            <span class="noodle n5"></span>
+          </div>
+
+          <div class="toppings" aria-hidden="true">
+            <span class="egg"></span>
+            <span class="chili c1"></span>
+            <span class="chili c2"></span>
+            <span class="chili c3"></span>
+            <span class="scallion"></span>
+          </div>
+
+          <div class="steam" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <div class="rim-glow" aria-hidden="true"></div>
+      </div>
+
+      <aside class="controls" aria-hidden="true">
+        <button id="toggleMotion" class="btn">Toggle Motion</button>
+      </aside>
+    </section>
+
+    <footer class="site-footer">
+      <small>Hecho con ❤️ — HTML · CSS · JS</small>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
